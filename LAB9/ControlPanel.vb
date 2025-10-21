@@ -29,34 +29,56 @@ Public Class ControlPanel
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Dim data(1) As Byte
-        data(0) = &H24 ' ASCII code for $
+        'data(0) = &HAA ' ASCII code for $
+        'data(1) = &H55
         Select Case timerState
-            Case 1 : data(1) = &B1
-            Case 2 : data(1) = &B10
-            Case 3 : data(1) = &B11
-            Case 4 : data(1) = &B100
-            Case 5 : data(1) = &B101
-            Case 6 : data(1) = &B110
-            Case 7 : data(1) = &B111
-            Case 8 : data(1) = &B1000
-            Case 9 : data(1) = &B1001
-            Case 10 : data(1) = &B1010
-            Case 11 : data(1) = &B1011
-            Case 12 : data(1) = &B1100
-            Case 13 : data(1) = &B1101
-            Case 14 : data(1) = &B1110
-            Case 15 : data(1) = &B1111
-            Case 16 : data(1) = &B10000
-            Case 17 : data(1) = &B10001
-            Case 18 : data(1) = &B10010
-            Case 19 : data(1) = &B10011
-            Case 20 : data(1) = &B10100
+            Case 1 : data(0) = &H55
+            Case 2 : data(0) = &HAA
+                '    Case 3 : data(1) = &B11
+                '    Case 4 : data(1) = &B100
+                '    Case 5 : data(1) = &B101
+                '    Case 6 : data(1) = &B110
+                '    Case 7 : data(1) = &B111
+                '    Case 8 : data(1) = &B1000
+                '    Case 9 : data(1) = &B1001
+                '    Case 10 : data(1) = &B1010
+                '    Case 11 : data(1) = &B1011
+                '    Case 12 : data(1) = &B1100
+                '    Case 13 : data(1) = &B1101
+                '    Case 14 : data(1) = &B1110
+                '    Case 15 : data(1) = &B1111
+                '    Case 16 : data(1) = &B10000
+                '    Case 17 : data(1) = &B10001
+                '    Case 18 : data(1) = &B10010
+                '    Case 19 : data(1) = &B10011
+                '    Case 20 : data(1) = &B10100
         End Select
 
         timerState += 1
-        If timerState > 25 Then timerState = 1
+        If timerState > 2 Then timerState = 1
 
-        SerialPort1.Write(data, 0, 2)
+        SerialPort1.Write(data, 0, 1)
+
+        'Read
+        Dim something As String
+        Do Until something = "10101010" Or something = "01010101"
+            Dim TX(SerialPort1.BytesToRead) As Byte
+            SerialPort1.Read(TX, 0, SerialPort1.BytesToRead) 'read bytes from
+            For i = 0 To UBound(TX)
+                something = Console.ReadLine()
+                Console.Write(TX(i))
+            Next
+        Loop
+        Console.WriteLine("hooray!")
+    End Sub
+
+    Sub Read()
+        Dim something As String
+        Dim TX(SerialPort1.BytesToRead) As Byte
+        SerialPort1.Read(TX, 0, SerialPort1.BytesToRead) 'read bytes from
+        something = CStr($"{TX(0)}{TX(1)}{TX(2)}{TX(3)}{TX(4)}{TX(5)}{TX(6)}{TX(7)}")
+
+        Console.WriteLine("")
     End Sub
 
     Private Sub ConnectButton_Click(sender As Object, e As EventArgs) Handles ConnectButton.Click
@@ -77,5 +99,50 @@ Public Class ControlPanel
             Timer1.Enabled = False
             TimerButton.Text = "Start Timer"
         End If
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Dim data(1) As Byte
+        'data(0) = &HAA ' ASCII code for $
+        'data(1) = &H55
+        Select Case timerState
+            Case 0 : timerState = 1
+                data(0) = &H55
+            Case 1 : data(0) = &H55
+            Case 2 : data(0) = &HAA
+                '    Case 3 : data(1) = &B11
+                '    Case 4 : data(1) = &B100
+                '    Case 5 : data(1) = &B101
+                '    Case 6 : data(1) = &B110
+                '    Case 7 : data(1) = &B111
+                '    Case 8 : data(1) = &B1000
+                '    Case 9 : data(1) = &B1001
+                '    Case 10 : data(1) = &B1010
+                '    Case 11 : data(1) = &B1011
+                '    Case 12 : data(1) = &B1100
+                '    Case 13 : data(1) = &B1101
+                '    Case 14 : data(1) = &B1110
+                '    Case 15 : data(1) = &B1111
+                '    Case 16 : data(1) = &B10000
+                '    Case 17 : data(1) = &B10001
+                '    Case 18 : data(1) = &B10010
+                '    Case 19 : data(1) = &B10011
+                '    Case 20 : data(1) = &B10100
+        End Select
+
+        timerState += 1
+        If timerState > 2 Then timerState = 1
+
+        SerialPort1.Write(data, 0, 1)
+
+        'Read and wait for proper response befor moving on
+        Dim something As String = 0
+        Do Until something = "85" Or something = "170"
+            Dim TX(SerialPort1.BytesToRead) As Byte
+            SerialPort1.Read(TX, 0, SerialPort1.BytesToRead) 'read bytes from
+            something = CStr($"{TX(0)}")
+        Loop
+        Console.WriteLine("hooray!")
+        Connect()
     End Sub
 End Class
