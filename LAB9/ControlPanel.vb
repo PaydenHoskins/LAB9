@@ -107,9 +107,9 @@ Public Class ControlPanel
         'data(1) = &H55
         Select Case timerState
             Case 0 : timerState = 1
-                data(0) = &H55
-            Case 1 : data(0) = &H55
-            Case 2 : data(0) = &HAA
+                data(0) = &H24
+            Case 1 : data(0) = &H24
+            Case 2 : data(0) = &H24
                 '    Case 3 : data(1) = &B11
                 '    Case 4 : data(1) = &B100
                 '    Case 5 : data(1) = &B101
@@ -137,7 +137,7 @@ Public Class ControlPanel
 
         'Read and wait for proper response befor moving on
         Dim something As String = 0
-        Do Until something = "85" Or something = "170"
+        Do Until something = "36"
             Dim TX(SerialPort1.BytesToRead) As Byte
             SerialPort1.Read(TX, 0, SerialPort1.BytesToRead) 'read bytes from
             something = CStr($"{TX(0)}")
