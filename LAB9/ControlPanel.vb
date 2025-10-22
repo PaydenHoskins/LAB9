@@ -110,24 +110,6 @@ Public Class ControlPanel
                 data(0) = &H24
             Case 1 : data(0) = &H24
             Case 2 : data(0) = &H24
-                '    Case 3 : data(1) = &B11
-                '    Case 4 : data(1) = &B100
-                '    Case 5 : data(1) = &B101
-                '    Case 6 : data(1) = &B110
-                '    Case 7 : data(1) = &B111
-                '    Case 8 : data(1) = &B1000
-                '    Case 9 : data(1) = &B1001
-                '    Case 10 : data(1) = &B1010
-                '    Case 11 : data(1) = &B1011
-                '    Case 12 : data(1) = &B1100
-                '    Case 13 : data(1) = &B1101
-                '    Case 14 : data(1) = &B1110
-                '    Case 15 : data(1) = &B1111
-                '    Case 16 : data(1) = &B10000
-                '    Case 17 : data(1) = &B10001
-                '    Case 18 : data(1) = &B10010
-                '    Case 19 : data(1) = &B10011
-                '    Case 20 : data(1) = &B10100
         End Select
 
         timerState += 1
@@ -136,7 +118,7 @@ Public Class ControlPanel
         SerialPort1.Write(data, 0, 1)
 
         'Read and wait for proper response befor moving on
-        Dim something As String = 0
+        Dim something As String = ""
         Do Until something = "36"
             Dim TX(SerialPort1.BytesToRead) As Byte
             SerialPort1.Read(TX, 0, SerialPort1.BytesToRead) 'read bytes from
