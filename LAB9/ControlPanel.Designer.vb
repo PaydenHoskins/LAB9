@@ -40,7 +40,6 @@ Partial Class ControlPanel
         '
         'Timer1
         '
-        Me.Timer1.Interval = 2000
         '
         'ExitButton
         '
@@ -83,7 +82,7 @@ Partial Class ControlPanel
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 6
-        Me.Button1.Text = "Button1"
+        Me.Button1.Text = "ADC"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'PositionTrackBar
@@ -92,6 +91,7 @@ Partial Class ControlPanel
         Me.PositionTrackBar.LargeChange = 1
         Me.PositionTrackBar.Location = New System.Drawing.Point(12, 110)
         Me.PositionTrackBar.Maximum = 20
+        Me.PositionTrackBar.Minimum = 1
         Me.PositionTrackBar.Name = "PositionTrackBar"
         Me.PositionTrackBar.Orientation = System.Windows.Forms.Orientation.Vertical
         Me.PositionTrackBar.Size = New System.Drawing.Size(45, 328)
